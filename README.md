@@ -12,6 +12,7 @@ Pet Finder é uma plataforma para adoção de pets.
 # Tecnologias
   - Node.js
   - Express
+  - Typescript
   - JWT
   - Bcrypt
   - PostgreSQL
