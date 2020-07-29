@@ -8,7 +8,6 @@ import provideAuthentication from '../middlewares/provideAuthentication';
 const petsRouter = Router();
 const upload = multer(uploadConfig);
 
-// Rota para a listagem de todos os pets
 petsRouter.get('/', (request: Request, response: Response) => {
   response.status(200).json({ message: true });
 });
