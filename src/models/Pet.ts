@@ -4,10 +4,14 @@ import {
   PrimaryGeneratedColumn,
   CreateDateColumn,
   UpdateDateColumn,
+  ManyToOne,
+  JoinColumn,
 } from 'typeorm';
 
-@Entity('users')
-class User {
+import User from './User';
+
+@Entity('pets')
+class Pet {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
@@ -23,10 +27,20 @@ class User {
   @Column()
   weight: number;
 
+  @Column()
+  image: string;
+
+  @Column()
+  user_id: string;
+
+  @ManyToOne(() => User)
+  @JoinColumn({ name: 'user_id' })
+  user: User;
+
   @CreateDateColumn()
   created_at: Date;
 
   @UpdateDateColumn()
   updated_at: Date;
 }
-export default User;
+export default Pet;
