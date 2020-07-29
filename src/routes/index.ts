@@ -5,7 +5,7 @@ import usersRouter from './users.routes';
 
 const routes = Router();
 
-routes.get('/pets', petsRouter);
-routes.get('/users', usersRouter);
+routes.use('/pets', petsRouter);
+routes.use('/users', usersRouter);
 
 export default routes;

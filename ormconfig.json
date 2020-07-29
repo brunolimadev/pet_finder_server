@@ -6,12 +6,12 @@
   "password": "brn5801991",
   "database": "pet_finder",
   "entities": [
-    "./src/models/*.ts"
+      "./src/models/*.ts"
   ],
   "migrations": [
-    "./src/database/migrations/*.ts"
+      "./src/database/migrations/*.ts"
   ],
   "cli": {
-    "migrationsDir": "./src/database/migrations"
+      "migrationsDir": "./src/database/migrations"
   }
 }

@@ -24,7 +24,7 @@ class User {
   address: string;
 
   @Column()
-  number: number;
+  number: string;
 
   @Column()
   city: string;

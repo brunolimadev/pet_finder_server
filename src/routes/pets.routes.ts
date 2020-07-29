@@ -1,4 +1,6 @@
 import { Router, Request, Response } from 'express';
+import multer from 'multer';
+import uploadConfig from '../config/upload';
 
 const petsRouter = Router();
 
