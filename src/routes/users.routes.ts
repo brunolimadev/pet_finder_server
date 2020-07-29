@@ -8,7 +8,7 @@ usersRouter.post('/', async (request: Request, response: Response) => {
     const {
       name,
       email,
-      postalCode,
+      postal_code,
       address,
       number,
       city,
@@ -21,7 +21,7 @@ usersRouter.post('/', async (request: Request, response: Response) => {
     const user = await createUserService.execute({
       name,
       email,
-      postalCode,
+      postal_code,
       address,
       number,
       city,

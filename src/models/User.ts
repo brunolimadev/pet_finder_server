@@ -18,7 +18,7 @@ class User {
   email: string;
 
   @Column()
-  postalCode: string;
+  postal_code: string;
 
   @Column()
   address: string;

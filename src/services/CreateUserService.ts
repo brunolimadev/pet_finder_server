@@ -6,7 +6,7 @@ import AppError from '../errors/AppError';
 interface Request {
   name: string;
   email: string;
-  postalCode: string;
+  postal_code: string;
   address: string;
   number: string;
   city: string;
@@ -18,7 +18,7 @@ class CreateUserService {
   public async execute({
     name,
     email,
-    postalCode,
+    postal_code,
     address,
     number,
     city,
@@ -40,7 +40,7 @@ class CreateUserService {
     const user = userRepository.create({
       name,
       email,
-      postalCode,
+      postal_code,
       address,
       number,
       city,
