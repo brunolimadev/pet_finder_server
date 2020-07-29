@@ -22,23 +22,46 @@ petsRouter.get('/', async (request: Request, response: Response) => {
 
 petsRouter.use(provideAuthentication);
 
-petsRouter.get('/test', async (request: Request, response: Response) => {
-  const { id } = request.user;
-  const petRepository = getCustomRepository(PetsRepository);
-  const userRepository = getRepository(User);
+petsRouter.get(
+  '/search/:pet_id',
+  async (request: Request, response: Response) => {
+    try {
+      const { pet_id } = request.params;
+      const petRepository = getCustomRepository(PetsRepository);
+      const findPet = await petRepository.findOne(pet_id, {
+        relations: ['user'],
+      });
 
-  const user = await userRepository.findOne(id);
+      if (findPet) {
+        delete findPet.user.password;
+      }
 
-  if (user) {
-    const findPets = await userRepository.find({
-      relations: ['pets'],
-      select: ['city'],
-      where: {
-        city: user.city,
-      },
-    });
+      response.json(findPet);
+    } catch (error) {
+      response.status(400).json({ error: error.message });
+    }
+  },
+);
 
-    response.json(findPets);
+petsRouter.get('/custom', async (request: Request, response: Response) => {
+  try {
+    const { id } = request.user;
+    const userRepository = getRepository(User);
+    const user = await userRepository.findOne(id);
+
+    if (user) {
+      const findPets = await userRepository.find({
+        relations: ['pets'],
+        select: ['city'],
+        where: {
+          city: user.city,
+        },
+      });
+
+      response.json(findPets);
+    }
+  } catch (error) {
+    response.status(400).json({ error: error.message });
   }
 });
 
