@@ -7,6 +7,7 @@ interface Request {
   age: number;
   weight: number;
   image: string;
+  type: 'cachorro' | 'gato';
   user_id: string;
 }
 
@@ -17,6 +18,7 @@ class CreatePetService {
     age,
     weight,
     image,
+    type,
     user_id,
   }: Request): Promise<Pet> {
     const petsRepository = getRepository(Pet);
@@ -27,6 +29,7 @@ class CreatePetService {
       age,
       weight,
       image,
+      type,
       user_id,
     });
 

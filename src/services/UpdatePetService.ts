@@ -1,7 +1,10 @@
 import { getRepository } from 'typeorm';
 import { isUuid } from 'uuidv4';
+import path from 'path';
+import fs from 'fs';
 import Pet from '../models/Pet';
 import AppError from '../errors/AppError';
+import uploadConfig from '../config/upload';
 
 interface Request {
   id: string;
@@ -36,6 +39,9 @@ class UpdatePetService {
     if (!findPet) {
       throw new AppError('Pet not found!');
     }
+
+    const petImage = path.join(uploadConfig.directory, findPet.image);
+    await fs.promises.unlink(petImage);
 
     findPet.name = name;
     findPet.breed = breed;
