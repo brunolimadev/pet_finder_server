@@ -15,6 +15,7 @@ Pet Finder é uma plataforma para adoção de pets.
   - Typescript
   - JWT
   - Bcrypt
+  - Multer
   - PostgreSQL
 
 # Wifeframe (Baixa Fidelidade)
