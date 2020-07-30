@@ -17,7 +17,7 @@ const upload = multer(uploadConfig);
 petsRouter.get('/', async (request: Request, response: Response) => {
   const petsRepository = getCustomRepository(PetsRepository);
   const pets = await petsRepository.find();
-  response.status(200).json([pets]);
+  response.status(200).json(pets);
 });
 
 petsRouter.use(provideAuthentication);
