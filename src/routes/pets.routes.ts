@@ -20,8 +20,6 @@ petsRouter.get('/', async (request: Request, response: Response) => {
   response.status(200).json(pets);
 });
 
-petsRouter.use(provideAuthentication);
-
 petsRouter.get(
   '/search/:pet_id',
   async (request: Request, response: Response) => {
@@ -43,6 +41,8 @@ petsRouter.get(
   },
 );
 
+petsRouter.use(provideAuthentication);
+
 petsRouter.get('/custom', async (request: Request, response: Response) => {
   try {
     const { id } = request.user;
@@ -55,6 +55,28 @@ petsRouter.get('/custom', async (request: Request, response: Response) => {
         select: ['city'],
         where: {
           city: user.city,
+        },
+      });
+
+      response.json(findPets);
+    }
+  } catch (error) {
+    response.status(400).json({ error: error.message });
+  }
+});
+
+petsRouter.get('/mypets', async (request: Request, response: Response) => {
+  try {
+    const { id } = request.user;
+    const userRepository = getRepository(User);
+    const user = await userRepository.findOne(id);
+
+    if (user) {
+      const findPets = await userRepository.find({
+        relations: ['pets'],
+        select: ['name'],
+        where: {
+          id: user.id,
         },
       });
 
