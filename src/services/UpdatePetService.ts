@@ -13,6 +13,7 @@ interface Request {
   age: number;
   weight: number;
   image: string;
+  type: 'cachorro' | 'gato';
 }
 
 class UpdatePetService {
@@ -23,6 +24,7 @@ class UpdatePetService {
     age,
     weight,
     image,
+    type,
   }: Request): Promise<Pet> {
     if (!isUuid(id)) {
       throw new AppError('Invalid ID');
@@ -40,14 +42,17 @@ class UpdatePetService {
       throw new AppError('Pet not found!');
     }
 
-    const petImage = path.join(uploadConfig.directory, findPet.image);
-    await fs.promises.unlink(petImage);
+    if (image.length > 0) {
+      const petImage = path.join(uploadConfig.directory, findPet.image);
+      await fs.promises.unlink(petImage);
+    }
 
     findPet.name = name;
     findPet.breed = breed;
     findPet.age = age;
     findPet.weight = weight;
-    findPet.image = image;
+    findPet.image = image.length > 0 ? image : findPet.image;
+    findPet.type = type;
 
     await petsRepository.save(findPet);
 

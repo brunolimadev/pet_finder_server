@@ -1,5 +1,5 @@
 import express, { Request, Response, NextFunction } from 'express';
-import bodyParser from 'body-parser';
+
 import 'express-async-errors';
 import cors from 'cors';
 import routes from './routes';

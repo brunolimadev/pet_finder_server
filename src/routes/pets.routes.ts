@@ -8,6 +8,7 @@ import UpdatePetService from '../services/UpdatePetService';
 import uploadConfig from '../config/upload';
 
 import User from '../models/User';
+import Pet from '../models/Pet';
 
 import provideAuthentication from '../middlewares/provideAuthentication';
 
@@ -50,15 +51,13 @@ petsRouter.get('/custom', async (request: Request, response: Response) => {
     const user = await userRepository.findOne(id);
 
     if (user) {
-      const findPets = await userRepository.find({
-        relations: ['pets'],
-        select: ['city'],
-        where: {
-          city: user.city,
-        },
-      });
+      const pets = await getRepository(Pet)
+        .createQueryBuilder('pet')
+        .innerJoin('pet.user', 'user')
+        .where('user.city = :city', { city: user.city })
+        .getMany();
 
-      response.json(findPets);
+      response.json(pets);
     }
   } catch (error) {
     response.status(400).json({ error: error.message });
@@ -138,8 +137,8 @@ petsRouter.put(
   upload.single('image'),
   async (request: Request, response: Response) => {
     try {
-      const { id, name, breed, age, weight } = request.body;
-      const image = request.file.filename;
+      const { id, name, breed, age, weight, type } = request.body;
+      const image = request.file ? request.file.filename : '';
       const updatePetService = new UpdatePetService();
 
       const pet = await updatePetService.execute({
@@ -148,6 +147,7 @@ petsRouter.put(
         breed,
         age,
         weight,
+        type,
         image,
       });
 
